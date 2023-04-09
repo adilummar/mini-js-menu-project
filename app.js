@@ -71,31 +71,56 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "orooty",
+    category: "dinner",
+    price: 16.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
-const sectionCenter = document.querySelector('.section-center')
-const btn = document.querySelectorAll('.filter-btn')
+const sectionCenter = document.querySelector(".section-center");
+const btn = document.querySelectorAll(".filter-btn");
+const btnContainer = document.querySelector('.btn-container')
 
-window.addEventListener('DOMContentLoaded',()=>{
-  getDisplaymenu(menu)
-})
+window.addEventListener("DOMContentLoaded", () => {
+  getDisplaymenu(menu);
+  let uniqueName = menu.reduce(
+    (value, item) => {
+      if (!value.includes(item.category)) {
+        value.push(item.category);
+      }
+      return value;
+    },
+    ["all"]
+  );
+  const categoryBtn = uniqueName.map((item) => {
+    return `<button class="filter-btn" type="button" data-id="${item}" >${item}</button>`;
+  }).join('');
+  btnContainer.innerHTML = categoryBtn;
+  console.log(categoryBtn);
+});
 
-btn.forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    let value = e.currentTarget.dataset.id
-    let category = menu.filter(menuItem=>{
-      return menuItem.category == value
-    })
-    if(value == 'all'){
-      getDisplaymenu(menu)
-    }else{
-      getDisplaymenu(category)
+// button name taking
+
+btn.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    let value = e.currentTarget.dataset.id;
+    let category = menu.filter((menuItem) => {
+      return menuItem.category == value;
+    });
+    if (value == "all") {
+      getDisplaymenu(menu);
+    } else {
+      getDisplaymenu(category);
     }
-  })
-})
+  });
+});
 
-function getDisplaymenu(arg){
-  let displayMenu = arg.map(item=>{
+function getDisplaymenu(arg) {
+  let displayMenu = arg.map((item) => {
     return `<article class="menu-item">
     <img src=${item.img} class="photo" alt="menu item" />
     <div class="item-info">
@@ -107,7 +132,7 @@ function getDisplaymenu(arg){
         ${item.desc}
       </div>
     </div>
-  </article>`
-  })
-  sectionCenter.innerHTML = displayMenu.join("")
+  </article>`;
+  });
+  sectionCenter.innerHTML = displayMenu.join("");
 }
